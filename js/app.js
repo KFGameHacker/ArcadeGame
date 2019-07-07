@@ -47,7 +47,20 @@ class Enemy extends GameObj{
     // Parameter: dt, a time delta between ticks
     update(dt){
         super.update();
-        this.x += this.speed;
+        this.x += this.speed * dt;
+
+        if(this.x > 500){
+            this.x = -100;
+            this.speed = randomSpeed();
+        }
+
+        if (player.x < this.x + 60 &&
+            player.x + 37 > this.x &&
+            player.y < this.y + 25 &&
+            30 + player.y > this.y) {
+            player.x = 200;
+            player.y = 380;
+        }
     }
     
 }
@@ -101,9 +114,13 @@ class Player extends GameObj{
     }
 }
 
+const randomSpeed = ()=>{
+    return 100 + Math.floor(Math.random() * 512);
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-let allEnemies = [new Enemy(0,60,10),new Enemy(0,140,10),new Enemy(0,220,10)];
+let allEnemies = [new Enemy(0,60,randomSpeed()),new Enemy(0,140,randomSpeed()),new Enemy(0,220,randomSpeed())];
 
 
 // Place the player object in a variable called player
