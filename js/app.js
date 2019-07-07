@@ -21,7 +21,10 @@
 //     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 // };
 class GameObj{
-    constructor(sprite){
+    constructor(x=0,y=0,speed=0,sprite){
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
         this.sprite = sprite;
     }
 
@@ -36,16 +39,17 @@ class Enemy extends GameObj{
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    constructor(sprite='images/enemy-bug.png'){
-        super(sprite);
+    constructor(x,y,speed,sprite='images/enemy-bug.png'){
+        super(x,y,speed,sprite);
     }
 
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update(dt){
         super.update();
-
+        this.x += this.speed;
     }
+    
 }
 
 // Now write your own player class
@@ -53,25 +57,57 @@ class Enemy extends GameObj{
 // a handleInput() method.
 class Player extends GameObj{
 
-    constructor(sprite='images/char-horn-girl.png') {
-        super(sprite);
+    constructor(x,y,speed,sprite='images/char-boy.png') {
+        super(x,y,speed,sprite);
     }
     
-    update(dt){
+    update(){
         super.update();
+            // Prevent player from moving beyond canvas wall boundaries
+        if (this.y > 380) {
+            this.y = 380;
+        }
 
+        if (this.x > 400) {
+            this.x = 400;
+        }
+
+        if (this.x < 0) {
+            this.x = 0;
+        }
+
+        // Check for player reaching top of canvas and winning the game
+        if (this.y < 0) {
+            this.x = 200;
+            this.y = 380;
+        }
     }
 
-    handleInput(){
-        
+    handleInput(keyPress){
+        switch (keyPress) {
+            case 'left':
+                this.x -= this.speed + 50;
+                break;
+            case 'up':
+                this.y -= this.speed + 30;
+                break;
+            case 'right':
+                this.x += this.speed + 50;
+                break;
+            case 'down':
+                this.y += this.speed + 30;
+                break;
+    }
     }
 }
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+let allEnemies = [new Enemy(0,60,10),new Enemy(0,140,10),new Enemy(0,220,10)];
+
 
 // Place the player object in a variable called player
-
+let player = new Player(200,380,50);
 
 
 // This listens for key presses and sends the keys to your
