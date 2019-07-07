@@ -20,41 +20,46 @@
 // Enemy.prototype.render = function() {
 //     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 // };
-
-class Enemy{
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    constructor(sprite='images/enemy-bug.png'){
+class GameObj{
+    constructor(sprite){
         this.sprite = sprite;
     }
 
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
-    updatePosition(){
-        
-    }
+    update(){}
 
     render(){
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 }
 
+class Enemy extends GameObj{
+
+    // The image/sprite for our enemies, this uses
+    // a helper we've provided to easily load images
+    constructor(sprite='images/enemy-bug.png'){
+        super(sprite);
+    }
+
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
+    update(dt){
+        super.update();
+
+    }
+}
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-class Player{
+class Player extends GameObj{
 
     constructor(sprite='images/char-horn-girl.png') {
-        this.sprite=sprite;
+        super(sprite);
     }
     
-    updatePosition(){
+    update(dt){
+        super.update();
 
-    }
-
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
     handleInput(){
@@ -64,6 +69,7 @@ class Player{
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+
 // Place the player object in a variable called player
 
 
